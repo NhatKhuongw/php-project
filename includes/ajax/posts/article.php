@@ -2,9 +2,6 @@
 
 /**
  * ajax -> posts -> article
- * 
- * 
- * 
  */
 
 // fetch bootstrap
