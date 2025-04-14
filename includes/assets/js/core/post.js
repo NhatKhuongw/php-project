@@ -2398,11 +2398,26 @@ $(function () {
     }
   });
   $('body').on('mouseleave', '.reactions-wrapper', function () {
+    // Bình luận mới: Gắn sự kiện "mouseleave" vào toàn bộ body, lắng nghe khi con trỏ chuột rời khỏi phần tử có class 'reactions-wrapper'
+    // Bình luận mới: Khi sự kiện xảy ra, thực hiện function sau:
+
     if (!is_iPad() && $(window).width() >= 970) {
+      // Bình luận mới: Kiểm tra hai điều kiện:
+      // Bình luận mới: - !is_iPad(): Thiết bị không phải là iPad (hàm is_iPad có thể được định nghĩa ở nơi khác để kiểm tra loại thiết bị)
+      // Bình luận mới: - $(window).width() >= 970: Chiều rộng cửa sổ trình duyệt lớn hơn hoặc bằng 970 pixel (tức là giao diện máy tính để bàn)
+      // Bình luận mới: Nếu cả hai điều kiện đúng, thực hiện khối lệnh bên trong:
+
       /* desktop -> hide the reactions */
       _hide_reactions(this);
+      // Bình luận cũ: Máy tính để bàn -> ẩn các phản ứng
+      // Bình luận mới: Gọi hàm _hide_reactions, truyền vào phần tử hiện tại (this)
+      // Bình luận mới: Hàm _hide_reactions (được định nghĩa ở nơi khác) chịu trách nhiệm ẩn menu phản ứng (reactions) khỏi giao diện
     }
+    // Bình luận mới: Kết thúc khối if (nếu không phải máy tính để bàn hoặc là iPad, không làm gì)
+
   });
+  // Bình luận mới: Kết thúc sự kiện mouseleave
+
   $('body').on('click', '.reactions-wrapper', function () {
     if (is_iPad() || $(window).width() < 970) {
       /* mobile -> toggle the reactions */
@@ -2458,6 +2473,15 @@ $(function () {
       }
     }
   });
+
+
+
+
+
+
+
+
+
   /* close reactions when clicked outside */
   $('body').on('click', function (e) {
     if ($(e.target).hasClass('reactions-wrapper') || $(e.target).parents('.reactions-wrapper').length > 0) {
@@ -2553,103 +2577,342 @@ $(function () {
 
 
   // handle translator
+  // Bình luận cũ: Đánh dấu đây là phần xử lý chức năng dịch (translator)
+  // Bình luận mới: Phần này xử lý việc dịch văn bản của bài viết sang ngôn ngữ khác khi người dùng nhấp vào nút dịch
+
   $('body').on('click', '.js_translator', function () {
+    // Bình luận mới: Gắn sự kiện "click" vào toàn bộ body, lắng nghe khi có phần tử nào có class 'js_translator' được nhấp vào
+    // Bình luận mới: Khi nhấp vào, thực hiện function sau:
+
     /* check if translator is enabled */
     if (!post_translation_enabled) {
       return;
     }
+    // Bình luận cũ: Kiểm tra xem chức năng dịch có được bật không
+    // Bình luận mới: Kiểm tra biến post_translation_enabled (có thể là biến toàn cục) để xem chức năng dịch có được bật không
+    // Bình luận mới: Nếu không bật (false), thoát khỏi hàm ngay lập tức bằng return
+
     var _this = $(this);
+    // Bình luận mới: Lưu tham chiếu đến phần tử được nhấp (có class 'js_translator') vào biến _this
+    // Bình luận mới: Sử dụng $(this) để biến phần tử DOM thành đối tượng jQuery, giúp dễ thao tác
+
     var post = _this.closest('.post, .lightbox-post, .post-media');
+    // Bình luận mới: Tìm phần tử cha gần nhất có class 'post', 'lightbox-post', hoặc 'post-media'
+    // Bình luận mới: Đây là container của bài viết chứa văn bản cần dịch, lưu vào biến post
+
     var text = post.find('.post-text:first').text();
+    // Bình luận mới: Tìm phần tử đầu tiên có class 'post-text' trong post và lấy nội dung văn bản của nó
+    // Bình luận mới: Văn bản này là nội dung bài viết cần dịch, lưu vào biến text
+
     var to_lang = $('html').data('lang').substring(0, 2);
+    // Bình luận mới: Lấy giá trị của thuộc tính data-lang từ thẻ <html>
+    // Bình luận mới: Cắt lấy 2 ký tự đầu tiên (ví dụ: 'en' từ 'en-US') để xác định ngôn ngữ đích (ngôn ngữ cần dịch sang)
+    // Bình luận mới: Lưu vào biến to_lang
+
     /* check text */
     if (is_empty(text)) {
       _this.removeClass('text-link js_translator').text(__['Translated']);
       return;
     }
+    // Bình luận cũ: Kiểm tra văn bản
+    // Bình luận mới: Kiểm tra xem biến text có rỗng không (sử dụng hàm is_empty, có thể được định nghĩa ở nơi khác)
+    // Bình luận mới: Nếu text rỗng:
+    // Bình luận mới: - Xóa class 'text-link' và 'js_translator' khỏi phần tử _this
+    // Bình luận mới: - Thay đổi nội dung văn bản của _this thành __['Translated'] (dịch là "Đã dịch")
+    // Bình luận mới: - Thoát khỏi hàm bằng return
+
     /* detect language */
     $.get('https://translate.yandex.net/api/v1.5/tr.json/detect', { 'key': yandex_key, 'text': text }, function (response) {
+      // Bình luận cũ: Phát hiện ngôn ngữ
+      // Bình luận mới: Gửi một yêu cầu GET đến API của Yandex Translate để phát hiện ngôn ngữ của văn bản
+      // Bình luận mới: URL API: https://translate.yandex.net/api/v1.5/tr.json/detect
+      // Bình luận mới: Dữ liệu gửi đi:
+      // Bình luận mới: - 'key': yandex_key (khóa API của Yandex, có thể là biến toàn cục)
+      // Bình luận mới: - 'text': Văn bản cần phát hiện ngôn ngữ (biến text)
+      // Bình luận mới: Sau khi nhận phản hồi, thực hiện function với tham số response
+
       /* check the target langauge is current langauge */
       if (to_lang === response.lang) {
         _this.removeClass('text-link js_translator').text(__['Translated']);
         return;
       }
+      // Bình luận cũ: Kiểm tra xem ngôn ngữ đích có phải là ngôn ngữ hiện tại không
+      // Bình luận mới: Kiểm tra nếu ngôn ngữ đích (to_lang) trùng với ngôn ngữ của văn bản (response.lang)
+      // Bình luận mới: Nếu trùng (nghĩa là không cần dịch):
+      // Bình luận mới: - Xóa class 'text-link' và 'js_translator' khỏi phần tử _this
+      // Bình luận mới: - Thay đổi nội dung văn bản của _this thành __['Translated'] (dịch là "Đã dịch")
+      // Bình luận mới: - Thoát khỏi hàm bằng return
+
       /* translate */
       $.getJSON('https://translate.yandex.net/api/v1.5/tr.json/translate', { 'key': yandex_key, 'text': text, 'lang': to_lang }, function (response) {
+        // Bình luận cũ: Dịch văn bản
+        // Bình luận mới: Gửi một yêu cầu GET đến API của Yandex Translate để dịch văn bản
+        // Bình luận mới: URL API: https://translate.yandex.net/api/v1.5/tr.json/translate
+        // Bình luận mới: Dữ liệu gửi đi:
+        // Bình luận mới: - 'key': yandex_key (khóa API của Yandex)
+        // Bình luận mới: - 'text': Văn bản cần dịch (biến text)
+        // Bình luận mới: - 'lang': Ngôn ngữ đích (to_lang, ví dụ: 'en' hoặc 'vi')
+        // Bình luận mới: Sau khi nhận phản hồi, thực hiện function với tham số response
+        // Bình luận mới: Sử dụng $.getJSON để đảm bảo phản hồi được xử lý dưới dạng JSON
+
         /* check the response */
         _this.removeClass('text-link js_translator').text(__['Translated']);
+        // Bình luận cũ: Kiểm tra phản hồi
+        // Bình luận mới: Xóa class 'text-link' và 'js_translator' khỏi phần tử _this
+        // Bình luận mới: Thay đổi nội dung văn bản của _this thành __['Translated'] (dịch là "Đã dịch")
+        // Bình luận mới: Điều này cho thấy quá trình dịch đã hoàn tất
+
         post.find('.post-text-translation:first').text(response.text).show().addClass("x-notifier");
+        // Bình luận mới: Tìm phần tử đầu tiên có class 'post-text-translation' trong post
+        // Bình luận mới: - Cập nhật nội dung của phần tử này thành response.text (văn bản đã được dịch)
+        // Bình luận mới: - Hiển thị phần tử bằng show()
+        // Bình luận mới: - Thêm class 'x-notifier' (có thể là hiệu ứng thông báo, ví dụ: làm nổi bật văn bản dịch)
+
         setTimeout(function () {
           post.find('.post-text-translation:first').removeClass("x-notifier");
         }, '2500');
+        // Bình luận mới: Sau 2500ms (2.5 giây), thực hiện hàm:
+        // Bình luận mới: - Tìm lại phần tử 'post-text-translation' và xóa class 'x-notifier'
+        // Bình luận mới: Điều này làm mất hiệu ứng thông báo sau một khoảng thời gian ngắn
+
       }, 'json')
+        // Bình luận mới: Chỉ định rằng phản hồi từ API dịch được mong đợi ở định dạng JSON
+
         .fail(function () {
+          // Bình luận mới: Nếu yêu cầu GET đến API dịch thất bại (do lỗi mạng, server, v.v.), thực hiện function này:
+
           modal('#modal-message', { title: __['Error'], message: __['There is something that went wrong!'] });
+          // Bình luận mới: Hiển thị một cửa sổ modal (popup) với ID '#modal-message'
+          // Bình luận mới: - Tiêu đề: __['Error'] (dịch là "Lỗi")
+          // Bình luận mới: - Nội dung: __['There is something that went wrong!'] (dịch là "Có điều gì đó đã xảy ra không đúng!")
         });
+      // Bình luận mới: Kết thúc xử lý lỗi của $.getJSON
+
     }, 'json')
+      // Bình luận mới: Chỉ định rằng phản hồi từ API phát hiện ngôn ngữ được mong đợi ở định dạng JSON
+
       .fail(function () {
+        // Bình luận mới: Nếu yêu cầu GET đến API phát hiện ngôn ngữ thất bại, thực hiện function này:
+
         modal('#modal-message', { title: __['Error'], message: __['There is something that went wrong!'] });
+        // Bình luận mới: Hiển thị một cửa sổ modal (popup) với ID '#modal-message'
+        // Bình luận mới: - Tiêu đề: __['Error'] (dịch là "Lỗi")
+        // Bình luận mới: - Nội dung: __['There is something that went wrong!'] (dịch là "Có điều gì đó đã xảy ra không đúng!")
       });
+    // Bình luận mới: Kết thúc xử lý lỗi của $.get
+
   });
+  // Bình luận mới: Kết thúc sự kiện click
 
 
   // handle album
+  // Bình luận cũ: Đánh dấu đây là phần xử lý album
+  // Bình luận mới: Phần này xử lý các hành động liên quan đến album, bao gồm xóa album
+
   /* delete album */
+  // Bình luận cũ: Đánh dấu đây là phần xử lý xóa album
+  // Bình luận mới: Phần này xử lý hành động xóa một album khi người dùng nhấp vào nút xóa
+
   $('body').on('click', '.js_delete-album', function () {
+    // Bình luận mới: Gắn sự kiện "click" vào toàn bộ body, lắng nghe khi có phần tử nào có class 'js_delete-album' được nhấp vào
+    // Bình luận mới: Khi nhấp vào, thực hiện function sau:
+
     var id = $(this).data('id');
+    // Bình luận mới: Lấy giá trị của thuộc tính data-id từ phần tử được nhấp
+    // Bình luận mới: Thuộc tính này chứa ID của album cần xóa, được gửi lên server để xử lý
+    // Bình luận mới: Lưu vào biến id
+
     confirm(__['Delete'], __['Are you sure you want to delete this?'], function () {
+      // Bình luận mới: Hiển thị một hộp thoại xác nhận (confirm) với:
+      // Bình luận mới: - Tiêu đề: __['Delete'] (dịch là "Xóa")
+      // Bình luận mới: - Nội dung: __['Are you sure you want to delete this?'] (dịch là "Bạn có chắc chắn muốn xóa cái này không?")
+      // Bình luận mới: Nếu người dùng nhấn OK (đồng ý), thực hiện function bên trong:
+
       $.post(api['albums/action'], { 'do': 'delete_album', 'id': id }, function (response) {
+        // Bình luận mới: Gửi một yêu cầu POST đến API tại đường dẫn api['albums/action']
+        // Bình luận mới: Dữ liệu gửi đi là một object chứa:
+        // Bình luận mới: - 'do': 'delete_album' (thao tác là xóa album)
+        // Bình luận mới: - 'id': Giá trị ID của album (lấy từ data-id)
+        // Bình luận mới: Sau khi server trả về phản hồi, thực hiện function với tham số response (phản hồi từ server)
+
         /* check the response */
+        // Bình luận cũ: Kiểm tra phản hồi từ server
         if (response.callback) {
           eval(response.callback);
         }
+        // Bình luận mới: Kiểm tra nếu phản hồi từ server (response) có thuộc tính 'callback'
+        // Bình luận mới: Nếu có, sử dụng hàm eval() để thực thi chuỗi mã JavaScript trong response.callback
+        // Bình luận mới: (Cảnh báo: eval() có thể gây rủi ro bảo mật nếu dữ liệu từ server không được kiểm soát chặt chẽ)
+
       }, 'json')
+        // Bình luận mới: Chỉ định rằng phản hồi từ server được mong đợi ở định dạng JSON
+
         .fail(function () {
+          // Bình luận mới: Nếu yêu cầu POST thất bại (do lỗi mạng, server, v.v.), thực hiện function này:
+
           modal('#modal-message', { title: __['Error'], message: __['There is something that went wrong!'] });
+          // Bình luận mới: Hiển thị một cửa sổ modal (popup) với ID '#modal-message'
+          // Bình luận mới: - Tiêu đề: __['Error'] (dịch là "Lỗi")
+          // Bình luận mới: - Nội dung: __['There is something that went wrong!'] (dịch là "Có điều gì đó đã xảy ra không đúng!")
         });
+      // Bình luận mới: Kết thúc xử lý lỗi của $.post
+
     });
+    // Bình luận mới: Kết thúc function của confirm
+
   });
+  // Bình luận mới: Kết thúc sự kiện click
+
+
   /* delete photo */
+  // Bình luận cũ: Đánh dấu đây là phần xử lý xóa ảnh (delete photo)
+  // Bình luận mới: Phần này xử lý hành động xóa một ảnh khỏi album khi người dùng nhấp vào nút xóa
+
   $('body').on('click', '.js_delete-photo', function (e) {
+    // Bình luận mới: Gắn sự kiện "click" vào toàn bộ body, lắng nghe khi có phần tử nào có class 'js_delete-photo' được nhấp vào
+    // Bình luận mới: Khi nhấp vào, thực hiện function với tham số e (đối tượng sự kiện)
+
     e.stopPropagation();
+    // Bình luận mới: Ngăn chặn sự kiện click lan truyền (bubble) lên các phần tử cha
+    // Bình luận mới: Điều này đảm bảo rằng sự kiện chỉ ảnh hưởng đến phần tử hiện tại, không kích hoạt các sự kiện click của các phần tử cha
+
     e.preventDefault();
+    // Bình luận mới: Ngăn chặn hành động mặc định của sự kiện (ví dụ: nếu phần tử là thẻ <a>, ngăn không cho trình duyệt chuyển hướng)
+    // Bình luận mới: Đảm bảo rằng hành động chỉ được xử lý bởi mã JavaScript
+
     var _this = $(this);
+    // Bình luận mới: Lưu tham chiếu đến phần tử được nhấp (có class 'js_delete-photo') vào biến _this
+    // Bình luận mới: Sử dụng $(this) để biến phần tử DOM thành đối tượng jQuery, giúp dễ thao tác
+
     var id = $(this).data('id');
+    // Bình luận mới: Lấy giá trị của thuộc tính data-id từ phần tử được nhấp
+    // Bình luận mới: Thuộc tính này chứa ID của ảnh cần xóa, được gửi lên server để xử lý
+    // Bình luận mới: Lưu vào biến id
+
     confirm(__['Delete'], __['Are you sure you want to delete this?'], function () {
+      // Bình luận mới: Hiển thị một hộp thoại xác nhận (confirm) với:
+      // Bình luận mới: - Tiêu đề: __['Delete'] (dịch là "Xóa")
+      // Bình luận mới: - Nội dung: __['Are you sure you want to delete this?'] (dịch là "Bạn có chắc chắn muốn xóa cái này không?")
+      // Bình luận mới: Nếu người dùng nhấn OK (đồng ý), thực hiện function bên trong:
+
       $.post(api['albums/action'], { 'do': 'delete_photo', 'id': id }, function (response) {
+        // Bình luận mới: Gửi một yêu cầu POST đến API tại đường dẫn api['albums/action']
+        // Bình luận mới: Dữ liệu gửi đi là một object chứa:
+        // Bình luận mới: - 'do': 'delete_photo' (thao tác là xóa ảnh)
+        // Bình luận mới: - 'id': Giá trị ID của ảnh (lấy từ data-id)
+        // Bình luận mới: Sau khi server trả về phản hồi, thực hiện function với tham số response (phản hồi từ server)
+
         /* check the response */
+        // Bình luận cũ: Kiểm tra phản hồi từ server
         if (response.callback) {
           eval(response.callback);
-        } else {
+        }
+        // Bình luận mới: Kiểm tra nếu phản hồi từ server (response) có thuộc tính 'callback'
+        // Bình luận mới: Nếu có, sử dụng hàm eval() để thực thi chuỗi mã JavaScript trong response.callback
+        // Bình luận mới: (Cảnh báo: eval() có thể gây rủi ro bảo mật nếu dữ liệu từ server không được kiểm soát chặt chẽ)
+
+        else {
           /* remove photo */
           _this.parents('.pg_photo').parent().fadeOut(300, function () { $(this).remove(); });
+          // Bình luận cũ: Xóa ảnh
+          // Bình luận mới: Tìm phần tử cha có class 'pg_photo' (thường là container của ảnh), sau đó lấy phần tử cha tiếp theo
+          // Bình luận mới: Thực hiện hiệu ứng ẩn dần (fadeOut) trong 300ms
+          // Bình luận mới: Sau khi ẩn xong, xóa hoàn toàn phần tử này khỏi DOM bằng hàm remove()
+          // Bình luận mới: Điều này làm cho ảnh biến mất khỏi giao diện
+
           /* hide the confimation */
           $('#modal').modal('hide');
+          // Bình luận cũ: Ẩn hộp thoại xác nhận
+          // Bình luận mới: Ẩn modal xác nhận (có ID là '#modal') sau khi hoàn tất thao tác
+          // Bình luận mới: Đảm bảo rằng cửa sổ xác nhận không còn hiển thị trên giao diện
         }
+        // Bình luận mới: Kết thúc khối else
+
       }, 'json')
+        // Bình luận mới: Chỉ định rằng phản hồi từ server được mong đợi ở định dạng JSON
+
         .fail(function () {
+          // Bình luận mới: Nếu yêu cầu POST thất bại (do lỗi mạng, server, v.v.), thực hiện function này:
+
           modal('#modal-message', { title: __['Error'], message: __['There is something that went wrong!'] });
+          // Bình luận mới: Hiển thị một cửa sổ modal (popup) với ID '#modal-message'
+          // Bình luận mới: - Tiêu đề: __['Error'] (dịch là "Lỗi")
+          // Bình luận mới: - Nội dung: __['There is something that went wrong!'] (dịch là "Có điều gì đó đã xảy ra không đúng!")
         });
+      // Bình luận mới: Kết thúc xử lý lỗi của $.post
+
     });
+    // Bình luận mới: Kết thúc function của confirm
+
   });
+  // Bình luận mới: Kết thúc sự kiện click
+
+
+
   /* pin photo */
+  // Bình luận cũ: Đánh dấu đây là phần xử lý ghim ảnh (pin photo)
+  // Bình luận mới: Phần này xử lý hành động ghim một ảnh trong album để nổi bật hoặc cố định nó
+
   $('body').on('click', '.js_pin-photo', function (e) {
+    // Bình luận mới: Gắn sự kiện "click" vào toàn bộ body, lắng nghe khi có phần tử nào có class 'js_pin-photo' được nhấp vào
+    // Bình luận mới: Khi nhấp vào, thực hiện function với tham số e (đối tượng sự kiện)
+
     e.stopPropagation();
+    // Bình luận mới: Ngăn chặn sự kiện click lan truyền (bubble) lên các phần tử cha
+    // Bình luận mới: Điều này đảm bảo rằng sự kiện chỉ ảnh hưởng đến phần tử hiện tại, không kích hoạt các sự kiện click của các phần tử cha
+
     e.preventDefault();
+    // Bình luận mới: Ngăn chặn hành động mặc định của sự kiện (ví dụ: nếu phần tử là thẻ <a>, ngăn không cho trình duyệt chuyển hướng)
+    // Bình luận mới: Đảm bảo rằng hành động chỉ được xử lý bởi mã JavaScript
+
     var _this = $(this);
+    // Bình luận mới: Lưu tham chiếu đến phần tử được nhấp (có class 'js_pin-photo') vào biến _this
+    // Bình luận mới: Sử dụng $(this) để biến phần tử DOM thành đối tượng jQuery, giúp dễ thao tác
+
     var id = $(this).data('id');
+    // Bình luận mới: Lấy giá trị của thuộc tính data-id từ phần tử được nhấp
+    // Bình luận mới: Thuộc tính này chứa ID của ảnh cần ghim, được gửi lên server để xử lý
+    // Bình luận mới: Lưu vào biến id
+
     $.post(api['albums/action'], { 'do': 'pin_photo', 'id': id }, function (response) {
+      // Bình luận mới: Gửi một yêu cầu POST đến API tại đường dẫn api['albums/action']
+      // Bình luận mới: Dữ liệu gửi đi là một object chứa:
+      // - 'do': 'pin_photo' (thao tác là ghim ảnh)
+      // - 'id': Giá trị ID của ảnh (lấy từ data-id)
+      // Bình luận mới: Sau khi server trả về phản hồi, thực hiện function với tham số response (phản hồi từ server)
+
       /* check the response */
+      // Bình luận cũ: Kiểm tra phản hồi từ server
       if (response.callback) {
         eval(response.callback);
-      } else {
+      }
+      // Bình luận mới: Kiểm tra nếu phản hồi từ server (response) có thuộc tính 'callback'
+      // Bình luận mới: Nếu có, sử dụng hàm eval() để thực thi chuỗi mã JavaScript trong response.callback
+      // Bình luận mới: (Cảnh báo: eval() có thể gây rủi ro bảo mật nếu dữ liệu từ server không được kiểm soát chặt chẽ)
+
+      else {
         _this.removeClass('js_pin-photo').addClass('js_unpin-photo pinned');
       }
+      // Bình luận mới: Nếu không có callback, thực hiện cập nhật giao diện phía client:
+      // Bình luận mới: - Xóa class 'js_pin-photo' khỏi phần tử _this
+      // Bình luận mới: - Thêm các class 'js_unpin-photo' và 'pinned' vào phần tử _this
+      // Bình luận mới: Điều này thay đổi trạng thái giao diện từ "có thể ghim" thành "đã ghim" và cho phép bỏ ghim
+
     }, 'json')
+      // Bình luận mới: Chỉ định rằng phản hồi từ server được mong đợi ở định dạng JSON
+
       .fail(function () {
+        // Bình luận mới: Nếu yêu cầu POST thất bại (do lỗi mạng, server, v.v.), thực hiện function này:
+
         modal('#modal-message', { title: __['Error'], message: __['There is something that went wrong!'] });
+        // Bình luận mới: Hiển thị một cửa sổ modal (popup) với ID '#modal-message'
+        // Bình luận mới: - Tiêu đề: __['Error'] (dịch là "Lỗi")
+        // Bình luận mới: - Nội dung: __['There is something that went wrong!'] (dịch là "Có điều gì đó đã xảy ra không đúng!")
       });
+    // Bình luận mới: Kết thúc xử lý lỗi của $.post
+
   });
+  // Bình luận mới: Kết thúc sự kiện click
   /* unpin photo */
   $('body').on('click', '.js_unpin-photo', function (e) {
     // Gắn sự kiện "click" vào toàn bộ body, lắng nghe khi có phần tử nào có class 'js_unpin-photo' được nhấp vào

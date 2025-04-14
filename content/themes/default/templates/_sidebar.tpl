@@ -53,12 +53,7 @@
       {/if}
       <!-- favorites -->
 
-      <!-- advertising -->
-      
-      <!-- advertising -->
-
       <!-- explore -->
-
       {if $user->_logged_in}
         <li {if $page == "people"}class="active" {/if}>
           <a href="{$system['system_url']}/people">
@@ -73,15 +68,6 @@
           <a href="{$system['system_url']}/blogs">
             {include file='__svg_icons.tpl' icon="blogs" class="main-icon mr10" width="24px" height="24px"}
             {__("Blogs")}
-          </a>
-        </li>
-      {/if}
-
-      {if $system['developers_apps_enabled'] || $system['developers_share_enabled']}
-        <li {if $page == "developers"}class="active" {/if}>
-          <a href="{$system['system_url']}/developers{if !$system['developers_apps_enabled']}/share{/if}">
-            {include file='__svg_icons.tpl' icon="developers" class="main-icon mr10" width="24px" height="24px"}
-            {__("Developers")}
           </a>
         </li>
       {/if}

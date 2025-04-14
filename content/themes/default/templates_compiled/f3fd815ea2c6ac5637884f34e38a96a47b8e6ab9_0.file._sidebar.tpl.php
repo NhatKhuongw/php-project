@@ -1,27 +1,27 @@
 <?php
-/* Smarty version 4.3.4, created on 2025-04-13 13:56:52
+/* Smarty version 4.3.4, created on 2025-04-13 15:10:19
   from 'C:\xampp\htdocs\content\themes\default\templates\_sidebar.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_67fbc2a4c42973_88078866',
+  'unifunc' => 'content_67fbd3dbe5dd88_19226814',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f3fd815ea2c6ac5637884f34e38a96a47b8e6ab9' => 
     array (
       0 => 'C:\\xampp\\htdocs\\content\\themes\\default\\templates\\_sidebar.tpl',
-      1 => 1744552611,
+      1 => 1744553217,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
-    'file:__svg_icons.tpl' => 9,
+    'file:__svg_icons.tpl' => 8,
   ),
 ),false)) {
-function content_67fbc2a4c42973_88078866 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67fbd3dbe5dd88_19226814 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class="card main-side-nav-card">
   <div class="card-body with-nav">
     <ul class="main-side-nav">
@@ -94,12 +94,7 @@ function content_67fbc2a4c42973_88078866 (Smarty_Internal_Template $_smarty_tpl)
       <?php }?>
       <!-- favorites -->
 
-      <!-- advertising -->
-      
-      <!-- advertising -->
-
       <!-- explore -->
-
       <?php if ($_smarty_tpl->tpl_vars['user']->value->_logged_in) {?>
         <li <?php if ($_smarty_tpl->tpl_vars['page']->value == "people") {?>class="active" <?php }?>>
           <a href="<?php echo $_smarty_tpl->tpl_vars['system']->value['system_url'];?>
@@ -119,18 +114,6 @@ function content_67fbc2a4c42973_88078866 (Smarty_Internal_Template $_smarty_tpl)
             <?php $_smarty_tpl->_subTemplateRender('file:__svg_icons.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('icon'=>"blogs",'class'=>"main-icon mr10",'width'=>"24px",'height'=>"24px"), 0, true);
 ?>
             <?php echo __("Blogs");?>
-
-          </a>
-        </li>
-      <?php }?>
-
-      <?php if ($_smarty_tpl->tpl_vars['system']->value['developers_apps_enabled'] || $_smarty_tpl->tpl_vars['system']->value['developers_share_enabled']) {?>
-        <li <?php if ($_smarty_tpl->tpl_vars['page']->value == "developers") {?>class="active" <?php }?>>
-          <a href="<?php echo $_smarty_tpl->tpl_vars['system']->value['system_url'];?>
-/developers<?php if (!$_smarty_tpl->tpl_vars['system']->value['developers_apps_enabled']) {?>/share<?php }?>">
-            <?php $_smarty_tpl->_subTemplateRender('file:__svg_icons.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('icon'=>"developers",'class'=>"main-icon mr10",'width'=>"24px",'height'=>"24px"), 0, true);
-?>
-            <?php echo __("Developers");?>
 
           </a>
         </li>
