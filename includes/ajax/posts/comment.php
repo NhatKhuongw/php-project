@@ -2,9 +2,6 @@
 
 /**
  * ajax -> posts -> comment
- * 
- * 
- * 
  */
 
 // fetch bootstrap
@@ -50,12 +47,10 @@ try {
 
   // comment
   $comment = $user->comment($_POST['handle'], $_POST['id'], $_POST['message'], $_POST['photo'], $_POST['voice_note']);
-  /* assign variables */
+//assign variables
   $smarty->assign('_is_reply', ($_POST['handle'] == "comment") ? true : false);
   $smarty->assign('_comment', $comment);
-  /* return */
   $return['comment'] = $smarty->fetch("__feeds_comment.tpl");
-
   // return & exit
   return_json($return);
 } catch (Exception $e) {
